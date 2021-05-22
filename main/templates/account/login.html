@@ -1,0 +1,67 @@
+{% extends "account/base.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+<div class="login-main border border-3 ">
+  <div class="d-block">
+
+    <h1 class="login-h1">{% trans "Sign In" %}</h1>
+
+    {% get_providers as socialaccount_providers %}
+
+    <p>{% blocktrans %}If you have not created an account yet, then please
+      <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+
+    <form class="login" method="POST" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+      {% endfor %}
+
+      <div class="mb-3">
+        <label class="mb-2" for="username">Username</label>
+        {% render_field form.login name="username" class="form-control" %}
+        {% for error in field.errors %}
+        <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <div class="mb-3">
+        <label class="mb-2" for="password">Password</label>
+        {% render_field form.password name="password" class="form-control" %}
+        {% for error in field.errors %}
+        <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col">
+            {% render_field form.remember name="remember" class="p-2" %}
+            <label for="remember">Remember</label>
+            {% for error in field.errors %}
+            <span class="help-block">{{ error }}</span>
+            {% endfor %}
+          </div>
+          <div class="col text-right">
+            <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+          </div>
+        </div>
+      </div>
+
+
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <div class="form-group text-center mb-4">
+        <button class="primaryAction btn btn-primary px-3 my-1 text-bold" type="submit">{% trans "Sign In" %}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}

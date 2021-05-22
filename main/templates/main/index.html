@@ -1,0 +1,28 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+{% block content %}
+<div>
+    <main class="index-main border border-3">
+        <div class="">
+            <div className="">
+                <h3 class="index-h3">Welcome to the Cypher Form!<span>&#128540;</span></h3>
+                <p class="index-p">
+                    If you already have an account, go ahead and <a href="{% url 'account_login' %}">Login</a>.
+                        If you are new to Cypher Form,
+                        get started by creating an <a href="{% url 'account_signup' %}">Signup</a>.
+                </p>
+                <p>
+                    <a href="https://cypherspot.dev/#contact"
+                        className="nav-link text-white" target="_blank"
+                    >
+                        <button class="btn btn-primary text-white">
+                            Contact Us
+                        </button>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock content %}

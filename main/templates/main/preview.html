@@ -1,0 +1,41 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<div class=" ">
+    <main class="justify-content-center preciew-main">
+        <h3 class="mb-3">Preview</h3>
+        <div>
+            <form action="#" >
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for form in orders.field.all %}
+                            <div class="mb-3">
+                                <label class="form-label">{{ form.name }}</label>
+                                {% if form.required == True %}
+                                <input name="{{form.name}}" id="{{form.ids}}" class="form-control" 
+                                type={{form.types}} required disabled>
+                                {% else %}
+                                <input name="{{form.name}}" id="{{form.ids}}" class="form-control" type={{form.types}} disabled>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </form>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="copy_text" placeholder="Copy Link" aria-label="copy link" 
+                aria-describedby="button-addon2" value="{{request.get_host}}/tm/{{order.short_url}}" readonly>
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Copy</button>
+            </div>
+        </div>
+    </main>
+</div>
+<script type="text/javascript">
+    document.getElementById("button-addon2").onclick = function() {
+    document.getElementById("copy_text").select();
+    document.execCommand('copy');
+    document.getElementById("button-addon2").innerHTML = "Copied!";
+}
+</script>
+{% endblock content %}

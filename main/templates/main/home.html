@@ -1,0 +1,68 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<div class=" ">
+    <main class="home-main">
+        {% if order %}
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="copy_text" placeholder="Copy Link" aria-label="copy link" 
+            aria-describedby="button-addon2" value="{{request.get_host}}/tm/{{order.short_url}}" readonly>
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Copy</button>
+        </div>
+        {%endif%}
+        <h3 class="mb-3">Create Form Field</h3>
+        <form action="{% url 'home' %}" class="" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label class="form-label">Label of the Field</label>
+                        {% render_field form.name  class="form-control" autofocus="true" %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Type of Form Field</label>
+                        {% render_field form.types  class+="form-control" %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Id of the Form Field</label>
+                        {% render_field form.ids  class+="form-control" %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Is this Field Required?</label>
+                        {% render_field form.required  class+="form-control" %}
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary rounded" 
+                        type="submit" id="mp3_btn">Create</button>
+                        <button class="btn btn-primary-outline rounded" >
+                            <a href="{% url 'create' %}">
+                                Continue <i class="	far fa-arrow-alt-circle-right"></i> 
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main><hr />
+    <div class="">
+        {% for field in fields %}
+        <div class="mb-3 border border-4 p-1 d-flex mx-2 ">
+            <div class="">
+                {{field.name}}
+                <a href="{% url 'delete_field' field.id %}" 
+                class="text-dark ms-3">
+                <i class="fas fa-times text-dark bg-danger p-1 rounded-1"></i></a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script type="text/javascript">
+    document.getElementById("button-addon2").onclick = function() {
+    document.getElementById("copy_text").select();
+    document.execCommand('copy');
+    document.getElementById("button-addon2").innerHTML = "Copied!";
+}
+</script>
+{% endblock content %}

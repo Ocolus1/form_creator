@@ -1,0 +1,51 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<div class=" ">
+    <main class="preview-main border">
+        <h3 class="mb-3">Preview</h3>
+        <div>
+            <form action="{% url 'floor_temp' order.short_url %}" method="POST" id="form_ac" >
+                {% csrf_token %}
+                <div class="">
+                    <div class="col-md-12">
+                        {% for form in item.field.all %}
+                            <div class="mb-3">
+                                <label  class="form-label mb-2">{{ form.name }}</label>
+                                {% if form.required == True %}
+                                <input name="{{form.name}}" id="{{form.ids}}" class="form-control" 
+                                type={{form.types}} required >
+                                {% else %}
+                                <input name="{{form.name}}" id="{{form.ids}}" class="form-control" type={{form.types}} >
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="mb-3">
+                            <button class="btn btn-primary rounded" 
+                            type="submit" id="mp_btn4">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+<!-- <script type="text/javascript">
+    let form = document.querySelector("#form_ac")
+
+    form.addEventListener("submit", function (e) {
+		e.preventDefault();
+		console.log("Form Submitted....")
+        console.log(e.target)
+        console.log(e)
+        submitFormData(e.target.value);
+	})
+
+    const submitFormData = (e) => {
+        data = JSON.stringify(e);
+        alert(data);
+    }
+</script> -->
+
+{% endblock content %}

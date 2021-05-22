@@ -1,0 +1,80 @@
+{% extends "account/base.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<style type="text/css">
+  p.err {
+    text-decoration: none;
+    list-style-type: none;
+    color: white;
+  }
+</style>
+<div class="sign-main border border-3">
+  <div class="">
+
+    <h1 class="sign-h1">{% trans "Sign Up" %}</h1>
+
+    <p>
+      {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
+    </p>
+
+    <form class="signup" id="signup_form" method="POST" action="{% url 'account_signup' %}">
+      {% csrf_token %}
+      {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+      {% endfor %}
+
+      {% if form.errors %}
+      <div class="alert alert-info help-block" role="alert">
+        {% for err in form %}
+        <p class="err">{{ err.errors }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label class="mb-2" for="username">Username<span class="text-danger">*</span></label>
+        {% render_field form.username name="username" class="form-control" autofocus="" %}
+      </div>
+      <div class="mb-3">
+        <label class="mb-2" for="email">Email</label>
+        {% render_field form.email name="email" class="form-control" %}
+      </div>
+      <div class="mb-3">
+        <label class="mb-2" for="password">Password<span class="text-danger">*</span></label>
+        {% render_field form.password1 name="password1" id="password" class="form-control" %}
+      </div>
+      <div class="mb-3">
+        <label class="mb-2" for="password">Password (again)<span class="text-danger">*</span></label>
+        {% render_field form.password2 name="password2" id="confirm_password" class="form-control" %}
+        <span id='message'></span>
+      </div>
+
+
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <div class="form-group mb-4 text-center">
+        <button class="primaryAction btn btn-primary px-3 my-1 text-bold" id="mybtn" type="submit" >
+          {% trans "Sign Up" %} &raquo;
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  $('#password, #confirm_password').on('keyup', function () {
+    if ($('#password').val() == $('#confirm_password').val()) {
+      $('#message').html('You are good to go.').css('color', 'green');
+    } else
+      $('#message').html('Passwords do not match.').css('color', 'red');
+  });
+
+</script>
+
+{% endblock %}

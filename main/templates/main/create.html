@@ -1,0 +1,34 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class=" ">
+    <main class="create-main border">
+        <h3 class="mb-3">Select Form Fields</h3>
+        <form action="{% url 'create' %}" class="" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <ul>
+                            <li >
+                                {{ form| crispy  }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn ms-3 btn-primary rounded" 
+                        type="submit" id="mp3_btn">Create</button>
+                        <button class="btn btn-primary-outline rounded" >
+                            <a href="{% url 'home' %}">
+                                <i class="	far fa-arrow-alt-circle-left"></i> Go Back  
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+</div>
+{% endblock content %}
